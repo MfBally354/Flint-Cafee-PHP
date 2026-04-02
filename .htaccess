@@ -1,0 +1,17 @@
+Options -Indexes
+RewriteEngine On
+
+# Redirect bare domain to menu
+RewriteRule ^$ index.php [L]
+
+# Security: block sensitive files
+<FilesMatch "(config\.php|\.sql)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Allow assets
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|svg|ico|woff2?)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>

@@ -1,0 +1,59 @@
+services:
+  # ─── Web Server (PHP + Apache) ────────────────────────────
+  app:
+    build: .
+    container_name: FlintCafe-APP
+    restart: unless-stopped
+    ports:
+      - "8091:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - cafe_network
+
+  # ─── Database (MySQL) ─────────────────────────────────────
+  db:
+    image: mysql:8.0
+    container_name: FlintCafe-DB
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: flintcafe
+      MYSQL_ROOT_PASSWORD: "flint@secret2024"
+      MYSQL_USER: cafe_user
+      MYSQL_PASSWORD: "cafepassword"
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql/database.sql:/docker-entrypoint-initdb.d/database.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pflint@secret2024"]
+      interval: 15s
+      timeout: 10s
+      retries: 15
+      start_period: 180s
+    networks:
+      - cafe_network
+
+  # ─── Linux Terminal (Alpine) ──────────────────────────────
+  terminal:
+    image: alpine:latest
+    container_name: FlintCafe-Terminal
+    restart: unless-stopped
+    command: sh -c "apk add --no-cache bash mysql-client curl && tail -f /dev/null"
+    networks:
+      - cafe_network
+
+# ─── Volumes ──────────────────────────────────────────────
+volumes:
+  db_data:
+
+# ─── Networks ─────────────────────────────────────────────
+networks:
+  cafe_network:
+    driver: bridge
