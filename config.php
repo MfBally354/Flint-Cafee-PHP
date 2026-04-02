@@ -6,7 +6,7 @@
 define('DB_HOST', 'db');
 define('DB_NAME', 'flintcafe');
 define('DB_USER', 'cafe_user');
-define('DB_PASS', 'cafepassword');
+define('DB_PASS', '#iqbaldebian#');
 define('DB_CHARSET', 'utf8mb4');
 
 define('CAFE_NAME', 'Flint Cafe');
