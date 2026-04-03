@@ -319,7 +319,7 @@ function showDatabaseError($technicalMessage = '') {
 
 function getDB(): PDO {
     static $pdo = null;
-    
+     
     if ($pdo === null) {
         try {
             $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
