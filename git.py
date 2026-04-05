@@ -64,4 +64,4 @@ def main():
     os.system("git status")
 
 if __name__ == "__main__":
-    main() 
+    main()
