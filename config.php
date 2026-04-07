@@ -19,7 +19,7 @@ function showDatabaseError($technicalMessage = '') {
     if (ob_get_level()) ob_clean();
     
     // Set header HTTP response code
-    http_response_code(503); 
+    http_response_code(503);
     
     // Tampilkan HTML dengan styling modern
     echo '<!DOCTYPE html>
